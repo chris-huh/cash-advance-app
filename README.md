@@ -45,7 +45,7 @@ Open your browser and go to [http://localhost:5173](http://localhost:5173) to ac
 
 - **Regular Users:** You can create regular users by clicking on the "Register" button in the app.
   
-- **Admin Users:** Admin users need to be created using a CURL command. Use the following command to create an admin user:
+- **Admin Users:** Admin users need to be created using a CURL command. Use the following command to create an admin user (replace with your email and password):
   ```bash
   curl -X POST http://localhost:3000/signup -H "Content-Type: application/json" -d '{"isAdmin": true, "email": "admin-email", "password": "admin-password"}'
   ```
