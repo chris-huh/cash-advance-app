@@ -1,0 +1,95 @@
+service: cash-advance-app
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-esbuild
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    SUPABASE_URL: "https://tqkslxtsfkhupcjouqye.supabase.co"
+    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxa3NseHRzZmtodXBjam91cXllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIyMzg2MTgsImV4cCI6MjA1NzgxNDYxOH0.JtYjy_Lotv0vjLjkpmMHkf6_5q2LKl-M0q1nyAHWk6c"
+    JWT_SECRET: "jwt_secret_key"
+    # SUPABASE_URL: ${env:SUPABASE_URL}
+    # SUPABASE_ANON_KEY: ${env:SUPABASE_ANON_KEY}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/*"
+
+custom:
+  dotenv:
+    path: ./.env
+    include:
+      - SUPABASE_URL
+      - SUPABASE_ANON_KEY
+      - JWT_SECRET
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: ["aws-sdk"]
+    target: "node18"
+    platform: "node"
+    concurrency: 10
+  serverless-offline:
+    httpPort: 3000
+    noPrependStageInUrl: true
+    lambdaPort: 3002
+
+functions:
+  signup:
+    handler: src/handlers/signup.handler
+    events:
+      - http:
+          path: /signup
+          method: post
+          cors: true
+  signin:
+    handler: src/handlers/signin.handler
+    events:
+      - http:
+          path: /signin
+          method: post
+          cors: true
+  createApplication:
+    handler: src/handlers/create-application.handler
+    events:
+      - http:
+          path: /applications
+          method: post
+          cors: true
+  updateApplication:
+    handler: src/handlers/update-application.handler
+    events:
+      - http:
+          path: /applications/{id}/state
+          method: patch
+          cors: true
+  getApplications:
+    handler: src/handlers/get-applications.handler
+    events:
+      - http:
+          path: /applications
+          method: get
+          cors: true
+  getSingleUser:
+    handler: src/handlers/get-single-user.handler
+    events:
+      - http:
+          path: /users/{userId}
+          method: get
+          cors: true

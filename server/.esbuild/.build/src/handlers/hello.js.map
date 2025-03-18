@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/handlers/hello.ts"],
+  "sourcesContent": ["import { APIGatewayProxyHandler } from \"aws-lambda\";\n\nexport const handler: APIGatewayProxyHandler = async (event) => {\n\ttry {\n\t\tconst response = {\n\t\t\tstatusCode: 200,\n\t\t\theaders: {\n\t\t\t\t\"Access-Control-Allow-Origin\": \"*\",\n\t\t\t\t\"Access-Control-Allow-Credentials\": true,\n\t\t\t},\n\t\t\tbody: JSON.stringify({\n\t\t\t\tmessage: \"Hello from Lambda!\",\n\t\t\t\tinput: event,\n\t\t\t}),\n\t\t};\n\t\treturn response;\n\t} catch (error) {\n\t\treturn {\n\t\t\tstatusCode: 500,\n\t\t\theaders: {\n\t\t\t\t\"Access-Control-Allow-Origin\": \"*\",\n\t\t\t\t\"Access-Control-Allow-Credentials\": true,\n\t\t\t},\n\t\t\tbody: JSON.stringify({ error: (error as Error).message }),\n\t\t};\n\t}\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,IAAM,UAAkC,OAAO,UAAU;AAC/D,MAAI;AACH,UAAM,WAAW;AAAA,MAChB,YAAY;AAAA,MACZ,SAAS;AAAA,QACR,+BAA+B;AAAA,QAC/B,oCAAoC;AAAA,MACrC;AAAA,MACA,MAAM,KAAK,UAAU;AAAA,QACpB,SAAS;AAAA,QACT,OAAO;AAAA,MACR,CAAC;AAAA,IACF;AACA,WAAO;AAAA,EACR,SAAS,OAAO;AACf,WAAO;AAAA,MACN,YAAY;AAAA,MACZ,SAAS;AAAA,QACR,+BAA+B;AAAA,QAC/B,oCAAoC;AAAA,MACrC;AAAA,MACA,MAAM,KAAK,UAAU,EAAE,OAAQ,MAAgB,QAAQ,CAAC;AAAA,IACzD;AAAA,EACD;AACD;",
+  "names": []
+}
